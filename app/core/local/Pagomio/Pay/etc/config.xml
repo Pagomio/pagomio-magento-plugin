@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+    <modules>
+        <Pagomio_Pay>
+            <version>1.0.0</version>
+        </Pagomio_Pay>
+    </modules>
+	<frontend>
+        <routers>
+            <pagomio>
+                <use>standard</use>
+                <args>
+                    <module>Pagomio_Pay</module>
+                    <frontName>pagomio</frontName>
+                </args>
+            </pagomio>
+        </routers>
+    </frontend>
+    <global>
+        <models>
+            <pagomio>
+                <class>Pagomio_Pay_Model</class>
+            </pagomio>
+        </models>
+        <resources>
+            <pagomio_setup>
+                <setup>
+                    <module>Pagomio_Pay</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </pagomio_setup>
+            <pagomio_write>
+                <use>core_write</use>
+            </pagomio_write>
+            <pagomio_read>
+                <use>core_read</use>
+            </pagomio_read>
+        </resources>
+        <helpers>
+            <pagomio>
+                <class>Pagomio_Pay_Helper</class>
+            </pagomio>
+        </helpers>
+        <blocks>
+            <pagomio><class>Pagomio_Pay_Block</class></pagomio>
+        </blocks>
+    </global>
+
+    <default>
+        <payment>
+            <pagomio>
+                <active>1</active>
+                <model>pagomio/pay</model>
+                <order_status>1</order_status>
+                <title>Pagomio</title>
+                <client_id />
+				<secret_id />
+                <transaction_mode />
+            </pagomio>
+        </payment>
+    </default>
+</config>
