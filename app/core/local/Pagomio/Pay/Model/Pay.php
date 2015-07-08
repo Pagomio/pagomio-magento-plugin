@@ -102,7 +102,7 @@ class Pagomio_Pay_Model_Pay extends Mage_Payment_Model_Method_Abstract
         }
         $order = Mage::getModel('sales/order')->loadByIncrementId($response->reference);
 
-        if(in_array($response->status, [\Pagomio\Pagomio::TRANSACTION_SUCCESS ,\Pagomio\Pagomio::TRANSACTION_PENDING ])){
+        if(in_array($response->status, array(\Pagomio\Pagomio::TRANSACTION_SUCCESS ,\Pagomio\Pagomio::TRANSACTION_PENDING ))){
             $payment = $order->getPayment();
             $payment->setTransactionId($response->transaction_id);
             if($response->status == \Pagomio\Pagomio::TRANSACTION_SUCCESS){
