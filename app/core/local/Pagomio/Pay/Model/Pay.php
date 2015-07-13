@@ -107,7 +107,7 @@ class Pagomio_Pay_Model_Pay extends Mage_Payment_Model_Method_Abstract
             $payment->setTransactionId($response->transaction_id);
             if($response->status == \Pagomio\Pagomio::TRANSACTION_SUCCESS){
                 $payment->registerCaptureNotification( $response->total_amount );
-                $order->addStatusToHistory($order->getStatus(), $response->message);
+                $order->addStatusToHistory('complete', $response->message);
                 $payment->save();
             }else{
                 $order->addStatusToHistory('pending', $response->message);
