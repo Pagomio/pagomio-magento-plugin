@@ -102,15 +102,21 @@ class Pagomio_Pay_Model_Pay extends Mage_Payment_Model_Method_Abstract
         }
         $order = Mage::getModel('sales/order')->loadByIncrementId($response->reference);
 
+        $strResponse = '';
+        foreach($response as $key=>$value){
+            $strResponse .= "<b>$key:</b> $value <br/>";
+        }
+
+        $status = $order->getStatus();
         if(in_array($response->status, array(\Pagomio\Pagomio::TRANSACTION_SUCCESS ,\Pagomio\Pagomio::TRANSACTION_PENDING ))){
             $payment = $order->getPayment();
             $payment->setTransactionId($response->transaction_id);
-            if($response->status == \Pagomio\Pagomio::TRANSACTION_SUCCESS){
+            if($response->status == \Pagomio\Pagomio::TRANSACTION_SUCCESS && $status != 'complete'){
                 $payment->registerCaptureNotification( $response->total_amount );
-                $order->addStatusToHistory('complete', $response->message);
+                $order->addStatusToHistory('complete', $strResponse);
                 $payment->save();
-            }else{
-                $order->addStatusToHistory('pending', $response->message);
+            }elseif($response->status == \Pagomio\Pagomio::TRANSACTION_PENDING && $status != 'pending'){
+                $order->addStatusToHistory('pending', $strResponse);
             }
             $order->save();
             return true;
